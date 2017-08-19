@@ -1,0 +1,126 @@
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
+
+## Setting global options
+```{r, echo = TRUE}
+library(knitr)
+opts_chunk$set(echo = T, dpi = 200)
+```
+
+## Loading and preprocessing the data
+
+### 1. Unzip activity.zip
+```{r unzip}
+zipfile <- "activity.zip"
+unzip(zipfile, exdir = ".")
+datapath <- "activity.csv"
+x <- 3
+```
+
+### 2. Load the data
+```{r loaddata, message=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+library(printr)
+df <- read_csv(datapath)
+head(df)
+```
+
+## What is mean total number of steps taken per day?
+
+### 1. Calculate the total number of steps per day
+```{r}
+daydf <- df %>%
+  group_by(date) %>%
+  summarise(steps = sum(steps, na.rm = T))
+head(daydf)
+```
+
+### 2. Make a histogram for the total steps per day
+```{r}
+library(ggplot2)
+ggplot(daydf, aes(steps)) +
+  geom_histogram(bins = 20) +
+  ggtitle("Histogram for Total Steps per Day") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+### 3. Calculate the mean and median of the total steps per day
+```{r}
+daydf %>%
+  summarise(mean = mean(steps), median = median(steps))
+```
+
+## What is the average daily activity pattern?
+
+### 1. Calculate the average steps for each time interval
+```{r}
+timedf <- df %>%
+  group_by(interval) %>%
+  summarise(steps = mean(steps, na.rm = T))
+head(timedf)
+```
+
+### 2. Make a time series plot
+```{r}
+ggplot(timedf, aes(x = interval, y = steps)) +
+  geom_line() +
+  ggtitle("Time Series Plot of Average Steps") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("5-minute interval") +
+  scale_x_continuous(breaks = seq(0, 2400, 240), labels = function(x){
+    formatC(x, width = 4, flag = "0", big.interval = 2, big.mark = ":")})
+```
+
+### 3. Find the interval that contains the max average steps
+```{r, message = FALSE}
+timedf %>% 
+  top_n(n = 1)
+```
+
+## Imputing missing values
+
+### 1. Calculate the total number of missing values in the dataset
+```{r}
+summarise_all(df, function(x){sum(is.na(x))})
+```
+
+Now, we can see that only the steps column has missing values. Therefore, there are **2304 rows with NAs** in the dataset.
+
+### 2. Fill in all the missing values with mean for 5-minute interval
+```{r}
+fixeddf <- df %>%
+  mutate(steps = 
+           if_else(is.na(steps), timedf$steps[which(timedf$interval == interval)], as.double(steps)))
+head(fixeddf, 10)
+```
+
+### 3. Calculate the total number of steps per day
+```{r}
+fixeddaydf <- fixeddf %>%
+  group_by(date) %>%
+  summarise(steps = sum(steps, na.rm = T))
+head(fixeddaydf, 10)
+```
+
+### 4. Make a histogram of total steps per day
+```{r}
+ggplot(fixeddaydf, aes(steps)) +
+  geom_histogram(bins = 20) +
+  ggtitle("Histogram for Total Steps per Day (Fixed)") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+### 3. Calculate the mean and median of the total steps per day
+```{r}
+fixeddaydf %>%
+  summarise(mean = mean(steps), median = median(steps))
+```
+
+The mean and median are **different from** the estimates from the first part of the assignment. The total daily numbers of steps of the days with missing values become **larger** after the missing data is imputed, while others remain the same.
+
+## Are there differences in activity patterns between weekdays and weekends?
