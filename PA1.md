@@ -162,8 +162,8 @@ display(head(daydf, 10))
 
 ```r
 library(ggplot2)
-ggplot(daydf, aes(x = date, y = steps)) +
-  geom_histogram(bins = 20, stat = "identity") +
+ggplot(daydf, aes(steps)) +
+  geom_histogram(bins = 20) +
   ggtitle("Histogram for Total Steps per Day") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
@@ -456,8 +456,8 @@ display(head(fixeddaydf, 10))
 ### 4. Make a histogram of total steps per day
 
 ```r
-ggplot(fixeddaydf, aes(x = date, y = steps)) +
-  geom_histogram(bins = 20, stat = "identity") +
+ggplot(fixeddaydf, aes(steps)) +
+  geom_histogram(bins = 20) +
   ggtitle("Histogram for Total Steps per Day (Fixed)") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
