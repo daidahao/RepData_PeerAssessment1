@@ -197,66 +197,67 @@ display(result)
 timedf <- df %>%
   group_by(interval) %>%
   summarise(steps = mean(steps, na.rm = T)) %>%
-  mutate(minutes = interval %/% 100 * 60 + interval %% 100)
+  mutate(minutes = interval %/% 100 * 60 + interval %% 100) %>%
+  select(-steps, steps)
 display(head(timedf, 10))
 ```
 
 <table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;"> interval </th>
-   <th style="text-align:center;"> steps </th>
    <th style="text-align:center;"> minutes </th>
+   <th style="text-align:center;"> steps </th>
   </tr></thead>
 <tbody>
 <tr>
 <td style="text-align:center;"> 0 </td>
-   <td style="text-align:center;"> 1.7169811 </td>
    <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 1.7169811 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 5 </td>
-   <td style="text-align:center;"> 0.3396226 </td>
    <td style="text-align:center;"> 5 </td>
+   <td style="text-align:center;"> 0.3396226 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 10 </td>
-   <td style="text-align:center;"> 0.1320755 </td>
    <td style="text-align:center;"> 10 </td>
+   <td style="text-align:center;"> 0.1320755 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 15 </td>
-   <td style="text-align:center;"> 0.1509434 </td>
    <td style="text-align:center;"> 15 </td>
+   <td style="text-align:center;"> 0.1509434 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 20 </td>
-   <td style="text-align:center;"> 0.0754717 </td>
    <td style="text-align:center;"> 20 </td>
+   <td style="text-align:center;"> 0.0754717 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 25 </td>
-   <td style="text-align:center;"> 2.0943396 </td>
    <td style="text-align:center;"> 25 </td>
+   <td style="text-align:center;"> 2.0943396 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 30 </td>
-   <td style="text-align:center;"> 0.5283019 </td>
    <td style="text-align:center;"> 30 </td>
+   <td style="text-align:center;"> 0.5283019 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 35 </td>
-   <td style="text-align:center;"> 0.8679245 </td>
    <td style="text-align:center;"> 35 </td>
+   <td style="text-align:center;"> 0.8679245 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 40 </td>
-   <td style="text-align:center;"> 0.0000000 </td>
    <td style="text-align:center;"> 40 </td>
+   <td style="text-align:center;"> 0.0000000 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 45 </td>
-   <td style="text-align:center;"> 1.4716981 </td>
    <td style="text-align:center;"> 45 </td>
+   <td style="text-align:center;"> 1.4716981 </td>
   </tr>
 </tbody>
 </table>
@@ -280,10 +281,10 @@ ggplot(timedf, aes(x = minutes, y = steps)) +
 
 ![](PA1_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
-### 3. Find the interval that contains the max average steps
+### 3. Find the interval that contains the maximum average steps
 
 ```r
-result <- timedf %>% 
+result <- timedf %>%
   top_n(n = 1)
 display(result)
 ```
@@ -291,13 +292,13 @@ display(result)
 <table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;"> interval </th>
-   <th style="text-align:center;"> steps </th>
    <th style="text-align:center;"> minutes </th>
+   <th style="text-align:center;"> steps </th>
   </tr></thead>
 <tbody><tr>
-<td style="text-align:center;"> 2355 </td>
-   <td style="text-align:center;"> 1.075472 </td>
-   <td style="text-align:center;"> 1435 </td>
+<td style="text-align:center;"> 835 </td>
+   <td style="text-align:center;"> 515 </td>
+   <td style="text-align:center;"> 206.1698 </td>
   </tr></tbody>
 </table>
 
@@ -572,7 +573,8 @@ display(head(fixeddf, 10))
 fixedtimedf <- fixeddf %>%
   group_by(interval, day) %>%
   summarise(steps = mean(steps, na.rm = T)) %>%
-  mutate(minutes = interval %/% 100 * 60 + interval %% 100)
+  mutate(minutes = interval %/% 100 * 60 + interval %% 100) %>%
+  select(-steps, steps)
 display(head(fixedtimedf, 10))
 ```
 
@@ -580,69 +582,69 @@ display(head(fixedtimedf, 10))
 <thead><tr>
 <th style="text-align:center;"> interval </th>
    <th style="text-align:center;"> day </th>
-   <th style="text-align:center;"> steps </th>
    <th style="text-align:center;"> minutes </th>
+   <th style="text-align:center;"> steps </th>
   </tr></thead>
 <tbody>
 <tr>
 <td style="text-align:center;"> 0 </td>
    <td style="text-align:center;"> weekday </td>
-   <td style="text-align:center;"> 2.2511530 </td>
    <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 2.2511530 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 0 </td>
    <td style="text-align:center;"> weekend </td>
-   <td style="text-align:center;"> 0.2146226 </td>
    <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 0.2146226 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 5 </td>
    <td style="text-align:center;"> weekday </td>
+   <td style="text-align:center;"> 5 </td>
    <td style="text-align:center;"> 0.4452830 </td>
-   <td style="text-align:center;"> 5 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 5 </td>
    <td style="text-align:center;"> weekend </td>
-   <td style="text-align:center;"> 0.0424528 </td>
    <td style="text-align:center;"> 5 </td>
+   <td style="text-align:center;"> 0.0424528 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 10 </td>
    <td style="text-align:center;"> weekday </td>
+   <td style="text-align:center;"> 10 </td>
    <td style="text-align:center;"> 0.1731656 </td>
-   <td style="text-align:center;"> 10 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 10 </td>
    <td style="text-align:center;"> weekend </td>
-   <td style="text-align:center;"> 0.0165094 </td>
    <td style="text-align:center;"> 10 </td>
+   <td style="text-align:center;"> 0.0165094 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 15 </td>
    <td style="text-align:center;"> weekday </td>
+   <td style="text-align:center;"> 15 </td>
    <td style="text-align:center;"> 0.1979036 </td>
-   <td style="text-align:center;"> 15 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 15 </td>
    <td style="text-align:center;"> weekend </td>
-   <td style="text-align:center;"> 0.0188679 </td>
    <td style="text-align:center;"> 15 </td>
+   <td style="text-align:center;"> 0.0188679 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 20 </td>
    <td style="text-align:center;"> weekday </td>
-   <td style="text-align:center;"> 0.0989518 </td>
    <td style="text-align:center;"> 20 </td>
+   <td style="text-align:center;"> 0.0989518 </td>
   </tr>
 <tr>
 <td style="text-align:center;"> 20 </td>
    <td style="text-align:center;"> weekend </td>
-   <td style="text-align:center;"> 0.0094340 </td>
    <td style="text-align:center;"> 20 </td>
+   <td style="text-align:center;"> 0.0094340 </td>
   </tr>
 </tbody>
 </table>

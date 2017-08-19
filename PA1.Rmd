@@ -72,7 +72,8 @@ display(result)
 timedf <- df %>%
   group_by(interval) %>%
   summarise(steps = mean(steps, na.rm = T)) %>%
-  mutate(minutes = interval %/% 100 * 60 + interval %% 100)
+  mutate(minutes = interval %/% 100 * 60 + interval %% 100) %>%
+  select(-steps, steps)
 display(head(timedf, 10))
 ```
 
@@ -92,9 +93,9 @@ ggplot(timedf, aes(x = minutes, y = steps)) +
   scale_x_continuous(breaks = seq(0, 1440, 180), labels = interval_to_label)
 ```
 
-### 3. Find the interval that contains the max average steps
+### 3. Find the interval that contains the maximum average steps
 ```{r, message = FALSE}
-result <- timedf %>% 
+result <- timedf %>%
   top_n(n = 1)
 display(result)
 ```
@@ -157,7 +158,8 @@ display(head(fixeddf, 10))
 fixedtimedf <- fixeddf %>%
   group_by(interval, day) %>%
   summarise(steps = mean(steps, na.rm = T)) %>%
-  mutate(minutes = interval %/% 100 * 60 + interval %% 100)
+  mutate(minutes = interval %/% 100 * 60 + interval %% 100) %>%
+  select(-steps, steps)
 display(head(fixedtimedf, 10))
 ```
 
