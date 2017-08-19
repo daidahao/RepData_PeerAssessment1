@@ -1,3 +1,8 @@
+## Solutions
+[PA1.md](PA1.md)
+[PA1.Rmd](PA1.Rmd)
+[PA1.html](PA1.html)
+
 ## Introduction
 
 It is now possible to collect a large amount of data about personal
