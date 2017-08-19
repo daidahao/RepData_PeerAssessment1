@@ -1,6 +1,9 @@
 ## Solutions
+
 [PA1.md](PA1.md)  
+
 [PA1.Rmd](PA1.Rmd)  
+
 [PA1.html](PA1.html)  
 
 ## Introduction
