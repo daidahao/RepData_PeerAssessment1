@@ -34,7 +34,6 @@ datapath <- "activity.csv"
 ```{r loaddata, message=FALSE, warning=FALSE}
 library(readr)
 library(dplyr)
-library(printr)
 df <- read_csv(datapath)
 display(head(df, 10))
 ```
